@@ -1,10 +1,10 @@
-POST http://localhost:5000/api/users/registration HTTP/1.1
+POST http://localhost:5000/api/users/sign-up HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "johndoe@gmail.com",
+  "email": "janendoe@gmail.com",
   "passwordHash": "qwerty123",
-  "firstName": "John",
+  "firstName": "Jane",
   "lastName": "Doe",
   "birthday": "1986-12-25"
 }
