@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SignIn from "../../components/SignIn/SignIn";
 import SignUp from "../../components/SignUp/SignUp";
-import { registerUser } from "../../api";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 
