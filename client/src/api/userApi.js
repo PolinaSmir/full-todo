@@ -1,3 +1,4 @@
+import history from "../BrowserHistory";
 import CONSTANTS from "../constants";
 
 export const registerUser = async (data) => {
@@ -44,6 +45,7 @@ export const authUser = async (token) => {
 
   if (response.status === 403) {
     const error = await response.json();
+    history.push("/");
     return Promise.reject(error);
   }
 
