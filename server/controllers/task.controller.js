@@ -3,7 +3,7 @@ const { Task } = require("../models");
 module.exports.getAllUserTasks = async (req, res, next) => {
   try {
     const {
-      params: { userId },
+      tokenPayload: { userId },
     } = req;
     const userTasks = await Task.find({
       authorId: userId,
@@ -16,8 +16,11 @@ module.exports.getAllUserTasks = async (req, res, next) => {
 
 module.exports.createUserTask = async (req, res, next) => {
   try {
-    const { body } = req;
-    const task = await Task.create(body);
+    const {
+      body,
+      tokenPayload: { userId },
+    } = req;
+    const task = await Task.create({ ...body, authorId: userId });
     return res.status(201).send({ data: task });
   } catch (error) {
     next(error);

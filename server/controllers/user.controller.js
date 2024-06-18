@@ -43,12 +43,11 @@ module.exports.loginUser = async (req, res, next) => {
 module.exports.checkToken = async (req, res, next) => {
   try {
     const {
-      params: { token },
+      tokenPayload: { userId },
     } = req;
-    const payload = await verifyToken(token);
 
     const foundUser = await User.findOne({
-      _id: payload.userId,
+      _id: userId,
     });
 
     return res.status(200).send({ data: foundUser });
