@@ -33,6 +33,11 @@ module.exports.loginUser = async (req, res, next) => {
       const accessToken = await createAccessToken({ userId: foundUser._id, email: foundUser.email });
       const refreshToken = await createRefreshToken({ userId: foundUser._id, email: foundUser.email });
 
+      await RefreshToken.create({
+        token: refreshToken,
+        userId: foundUser._id,
+      });
+
       return res.status(200).send({ data: foundUser, tokens: { accessToken, refreshToken } });
     } else {
       throw new NotFoundError("Incorrect email");
