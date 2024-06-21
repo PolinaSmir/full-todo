@@ -34,7 +34,7 @@ const Home = (props) => {
     callback(values)
       .then((result) => {
         props.sendUser(result.data);
-        localStorage.setItem("token", result.tokens.token);
+
         navigate("/tasks");
       })
       .catch((err) => {
