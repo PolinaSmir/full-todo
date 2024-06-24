@@ -60,3 +60,17 @@ function* generatorOneHundred() {
 }
 
 const genOneHundred = generatorOneHundred();
+
+function* numberGenerator(start, end) {
+  for (let i = start; i <= end; i++) {
+    yield i;
+  }
+}
+
+const it = numberGenerator(0, 100);
+let sum = 0;
+for (let i = 0; i <= 100; i++) {
+  const { value } = it.next();
+  sum += value;
+}
+console.log(sum);
