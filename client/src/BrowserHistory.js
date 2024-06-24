@@ -2,6 +2,6 @@ import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory();
 
-console.log(history);
+// console.log(history);
 
 export default history;
