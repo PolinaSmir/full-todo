@@ -1,11 +1,11 @@
-import ACTION_TYPES from "./actions/actionTypes";
+import ACTION_TYPES from "../actions/actionTypes";
 
 const initialState = {
   counter: 0,
   step: 1,
 };
 
-const reducer = (state = initialState, action) => {
+const counterReducer = (state = initialState, action) => {
   // console.log(action);
   switch (action.type) {
     case ACTION_TYPES.INCREMENT: {
@@ -32,4 +32,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default counterReducer;
