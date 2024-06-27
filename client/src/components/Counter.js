@@ -4,7 +4,7 @@ import { incrementAction, decrementAction, changeStepAction } from "../actions/a
 
 const Counter = (props) => {
   const changeHandler = ({ target: { value } }) => {
-    props.stepAction(value);
+    props.stepAction(Number(value));
   };
 
   // console.log(props);
@@ -12,7 +12,7 @@ const Counter = (props) => {
   return (
     <>
       <h1>{props.counter}</h1>
-      <input type="number" name="step" onChange={changeHandler} />
+      <input type="number" name="step" value={props.step} onChange={changeHandler} />
       <button onClick={props.increment}>+</button>
       <button onClick={props.decrement}>-</button>
     </>
@@ -20,6 +20,7 @@ const Counter = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return state;
 };
 
