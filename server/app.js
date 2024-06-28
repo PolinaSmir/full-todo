@@ -10,6 +10,14 @@ app.use(express.json());
 
 app.use("/api/", router);
 
+app.post("/example/counter", async (req, res, next) => {
+  const {
+    body: { counter },
+  } = req;
+  console.log("Zapyt");
+  return res.status(200).send({ ServerResponse: counter });
+});
+
 app.use(errorHandler);
 
 module.exports = app;
