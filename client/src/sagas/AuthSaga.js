@@ -1,5 +1,5 @@
-import { registerUser, loginUser } from "../api/axiosApi";
-import { loginUserSuccess, loginUserError, registerUserError, registerUserSuccess } from "../actions/actionCreator";
+import { registerUser, loginUser, authUser, logOut } from "../api/axiosApi";
+import { loginUserSuccess, loginUserError, registerUserSuccess, registerUserError, authUserSuccess, authUserError } from "../actions/actionCreator";
 import { put } from "redux-saga/effects";
 import history from "../BrowserHistory";
 
@@ -27,4 +27,21 @@ export function* registerSaga(action) {
   } catch (error) {
     yield put(registerUserError(error));
   }
+}
+
+export function* authSaga() {
+  try {
+    const {
+      data: { data },
+    } = yield authUser();
+
+    yield put(authUserSuccess(data));
+  } catch (error) {
+    yield put(authUserError(error));
+  }
+}
+
+export function* logOutSaga() {
+  yield logOut();
+  history.push("/");
 }

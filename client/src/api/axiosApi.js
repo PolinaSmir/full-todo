@@ -20,6 +20,12 @@ export const refreshUser = async () => {
   return data;
 };
 
+export const authUser = async () => await httpClient.get("/users");
+
+export const logOut = async () => {
+  localStorage.clear();
+};
+
 // taskApi
 
 export const getTasks = async () => await httpClient.get("/tasks");

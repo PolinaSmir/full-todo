@@ -7,7 +7,6 @@ export function* getTasksSaga() {
     const {
       data: { data },
     } = yield getTasks();
-    console.log(data);
 
     yield put(getTasksSuccess(data));
   } catch (error) {

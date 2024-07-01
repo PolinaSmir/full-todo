@@ -81,7 +81,6 @@ module.exports.refreshSession = async (req, res, next) => {
     if (verifyResult) {
       const user = await User.findOne({ _id: verifyResult.userId });
       const oldRefreshTokenFromDB = await RefreshToken.findOne({ $and: [{ token: refreshToken }, { userId: user._id }] });
-      console.log(oldRefreshTokenFromDB);
 
       if (oldRefreshTokenFromDB) {
         await RefreshToken.deleteOne({ $and: [{ token: refreshToken }, { userId: user._id }] });
