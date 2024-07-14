@@ -12,7 +12,7 @@ export function* loginSaga(action) {
     yield put(loginUserSuccess(data));
     history.push("/tasks");
   } catch (error) {
-    yield put(loginUserError(error));
+    yield put(loginUserError(error.response.data.error));
   }
 }
 
@@ -25,7 +25,7 @@ export function* registerSaga(action) {
     yield put(registerUserSuccess(data));
     history.push("/tasks");
   } catch (error) {
-    yield put(registerUserError(error));
+    yield put(registerUserError(error.response.data.error));
   }
 }
 

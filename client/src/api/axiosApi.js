@@ -1,11 +1,19 @@
 import axios from "axios";
 import CONSTANTS from "../constants";
 import history from "../BrowserHistory";
+import { io } from "socket.io-client";
+import store from "../store";
 
 //instance
 
 const httpClient = axios.create({
-  baseURL: CONSTANTS.API_BASE,
+  baseURL: `http://${CONSTANTS.API_BASE}`, // http://localhost:5000/api
+});
+
+const socket = io("ws://localhost:5000", { transports: ["websocket"] });
+
+socket.on(CONSTANTS.SOCKET_EVENT_NOTIFICATION, (data) => {
+  store.dispatch({ type: "NOTIFICATION", payload: data });
 });
 
 //userApi
@@ -68,11 +76,12 @@ httpClient.interceptors.response.use(
       await refreshUser();
 
       // Povtority zapyt koly stalasya pomylka 403
-      await httpClient(error.config);
-    }
-
-    if (error.response.status === 401) {
+      return await httpClient(error.config);
+    } else if (error.response.status === 401) {
+      await logOut();
       history.push("/");
+    } else {
+      return Promise.reject(error);
     }
 
     return Promise.reject(error);

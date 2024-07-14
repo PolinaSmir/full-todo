@@ -15,7 +15,7 @@ const io = new Server(server, cors);
 io.on("connect", (socket) => {
   console.log("CONNECTION");
 
-  setTimeout(() => {
+  setInterval(() => {
     io.emit("NEW_NOTIFICATION", { notification: "Somethiong new happened" });
   }, 5000);
 
