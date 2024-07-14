@@ -36,6 +36,7 @@ describe("create new user", () => {
     const response = await appRequest.post("/api/users/sign-up").send(user);
 
     expect(response.statusCode).toBe(201);
+
     expect(bodySchema.isValidSync(response.body)).toBe(true);
   });
 

@@ -104,3 +104,35 @@ module.exports.refreshSession = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports.createNewTokenPairNyQRCodeAuth = async (req, res, next) => {
+  try {
+    const {
+      body: { refreshToken },
+    } = req;
+
+    const verifyResult = await verifyRefreshToken(refreshToken);
+
+    if (verifyResult) {
+      const user = await User.findOne({ _id: verifyResult.userId });
+      const oldRefreshTokenFromDB = await RefreshToken.findOne({ $and: [{ token: refreshToken }, { userId: user._id }] });
+
+      if (oldRefreshTokenFromDB) {
+        const newAccessToken = await createAccessToken({ userId: user._id, email: user.email });
+        const newRefreshToken = await createRefreshToken({ userId: user._id, email: user.email });
+
+        await RefreshToken.create({
+          token: newRefreshToken,
+          userId: user._id,
+        });
+
+        return res.status(200).send({ tokens: { accessToken: newAccessToken, refreshToken: newRefreshToken } });
+      }
+    } else {
+      // return res.status(401).send({ error: "Invalid token" });
+      throw new RefreshTokenError("Token not found");
+    }
+  } catch (error) {
+    next(error);
+  }
+};

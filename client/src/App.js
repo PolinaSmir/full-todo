@@ -8,6 +8,7 @@ import { authUserRequest } from "./actions/actionCreator";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthByQRCode from "./pages/AuthByQRCode/AuthByQRCode";
 
 function App(props) {
   useEffect(() => {
@@ -37,6 +38,7 @@ function App(props) {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tasks" element={<TodoPage />} />
+        <Route path="/authByQR" element={<AuthByQRCode />} />
       </Routes>
     </HistoryRouter>
   );
