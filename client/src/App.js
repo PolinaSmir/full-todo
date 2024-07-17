@@ -12,9 +12,11 @@ import AuthByQRCode from "./pages/AuthByQRCode/AuthByQRCode";
 
 function App(props) {
   useEffect(() => {
-    if (!props.user) {
-      props.authUserRequest();
-    }
+    setTimeout(() => {
+      if (!props.user) {
+        props.authUserRequest();
+      }
+    }, 500);
   }, []);
 
   useEffect(() => {
@@ -51,3 +53,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+// http://192.168.43.112:3000/authByQR/?refresh=

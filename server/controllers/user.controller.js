@@ -2,7 +2,12 @@ const { User, RefreshToken } = require("../models");
 const bcrypt = require("bcrypt");
 const NotFoundError = require("../errors/NotFound");
 const RefreshTokenError = require("../errors/RefreshTokenError");
-const { createAccessToken, verifyAccessToken, createRefreshToken, verifyRefreshToken } = require("../services/createSession");
+const {
+  createAccessToken,
+  verifyAccessToken,
+  createRefreshToken,
+  verifyRefreshToken,
+} = require("../services/createSession");
 
 module.exports.registrationUser = async (req, res, next) => {
   try {
@@ -11,6 +16,11 @@ module.exports.registrationUser = async (req, res, next) => {
 
     const accessToken = await createAccessToken({ userId: createdUser._id, email: createdUser.email });
     const refreshToken = await createRefreshToken({ userId: createdUser._id, email: createdUser.email });
+
+    await RefreshToken.create({
+      token: refreshToken,
+      userId: createdUser._id,
+    });
 
     return res.status(201).send({ data: createdUser, tokens: { accessToken, refreshToken } });
   } catch (error) {
@@ -81,7 +91,9 @@ module.exports.refreshSession = async (req, res, next) => {
   try {
     if (verifyResult) {
       const user = await User.findOne({ _id: verifyResult.userId });
-      const oldRefreshTokenFromDB = await RefreshToken.findOne({ $and: [{ token: refreshToken }, { userId: user._id }] });
+      const oldRefreshTokenFromDB = await RefreshToken.findOne({
+        $and: [{ token: refreshToken }, { userId: user._id }],
+      });
 
       if (oldRefreshTokenFromDB) {
         await RefreshToken.deleteOne({ $and: [{ token: refreshToken }, { userId: user._id }] });
@@ -115,7 +127,9 @@ module.exports.createNewTokenPairNyQRCodeAuth = async (req, res, next) => {
 
     if (verifyResult) {
       const user = await User.findOne({ _id: verifyResult.userId });
-      const oldRefreshTokenFromDB = await RefreshToken.findOne({ $and: [{ token: refreshToken }, { userId: user._id }] });
+      const oldRefreshTokenFromDB = await RefreshToken.findOne({
+        $and: [{ token: refreshToken }, { userId: user._id }],
+      });
 
       if (oldRefreshTokenFromDB) {
         const newAccessToken = await createAccessToken({ userId: user._id, email: user.email });

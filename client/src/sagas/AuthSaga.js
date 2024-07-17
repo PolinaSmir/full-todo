@@ -1,7 +1,17 @@
 import { registerUser, loginUser, authUser, logOut } from "../api/axiosApi";
-import { loginUserSuccess, loginUserError, registerUserSuccess, registerUserError, authUserSuccess, authUserError } from "../actions/actionCreator";
+import {
+  loginUserSuccess,
+  loginUserError,
+  registerUserSuccess,
+  registerUserError,
+  authUserSuccess,
+  authUserError,
+  authByQRCodeSuccess,
+  authByQRCodeError,
+} from "../actions/actionCreator";
 import { put } from "redux-saga/effects";
 import history from "../BrowserHistory";
+import { authByQRCode } from "../api/authByQRCodeApi";
 
 export function* loginSaga(action) {
   try {
@@ -44,4 +54,24 @@ export function* authSaga() {
 export function* logOutSaga() {
   yield logOut();
   history.push("/");
+}
+
+export function* authByQRCodeSaga(action) {
+  try {
+    const { data } = yield authByQRCode({
+      refreshToken: action.payload,
+    });
+
+    const {
+      tokens: { accessToken, refreshToken },
+    } = data;
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+
+    history.push("/tasks");
+
+    yield put(authByQRCodeSuccess(data));
+  } catch (error) {
+    yield put(authByQRCodeError(error));
+  }
 }

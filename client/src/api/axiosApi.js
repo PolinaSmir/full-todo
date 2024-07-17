@@ -10,7 +10,7 @@ const httpClient = axios.create({
   baseURL: `http://${CONSTANTS.API_BASE}`, // http://localhost:5000/api
 });
 
-const socket = io("ws://192.168.43.112:5000");
+const socket = io(`ws://${CONSTANTS.IPv4_ADDRESS}:5000`);
 
 socket.on(CONSTANTS.SOCKET_EVENT_NOTIFICATION, (data) => {
   store.dispatch({ type: "NOTIFICATION", payload: data });
