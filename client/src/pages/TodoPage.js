@@ -36,8 +36,10 @@ const TodoPage = (props) => {
   const generateLink = () => {
     const refreshToken = localStorage.getItem("refreshToken");
 
+    console.log(`http://${CONSTANTS.IPv4_ADDRESS}:3000/authByQR/?refresh=${refreshToken}`);
+
     return `http://${CONSTANTS.IPv4_ADDRESS}:3000/authByQR/?refresh=${refreshToken}`;
-    // http://192.168.43.112:3000/authByQR/?refresh=
+    // http://192.168.43.112:3000/authByQR/?refresh=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZiMWY1Y2E0Mzg5ODhlYjdiMWU2NjkiLCJlbWFpbCI6ImphbmVuZG9lQGdtYWlsLmNvbSIsImlhdCI6MTcyMTIzMjg1MywiZXhwIjoxNzIxMjM2NDUzfQ.kH5DOwxF7Rfx8yMqWj_0al-ncLd_tgdsk9xKGeIfgl0
   };
 
   return (

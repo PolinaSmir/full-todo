@@ -21,6 +21,10 @@ module.exports.createUserTask = async (req, res, next) => {
       tokenPayload: { userId },
     } = req;
     const task = await Task.create({ ...body, authorId: userId });
+
+    const io = req.app.get("io");
+    io.emit("SOCKET_REFRESH_TASK_LIST");
+
     return res.status(201).send({ data: task });
   } catch (error) {
     next(error);
@@ -37,6 +41,9 @@ module.exports.deleteTask = async (req, res, next) => {
     const deletedTask = await Task.findOneAndDelete({ _id: taskId, authorId: userId });
 
     if (deletedTask) {
+      const io = req.app.get("io");
+      io.emit("SOCKET_REFRESH_TASK_LIST");
+
       return res.status(200).send({ data: deletedTask });
     } else {
       return res.status(404).send({ err: "Task not found" });

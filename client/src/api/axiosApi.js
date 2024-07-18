@@ -3,6 +3,7 @@ import CONSTANTS from "../constants";
 import history from "../BrowserHistory";
 import { io } from "socket.io-client";
 import store from "../store";
+import { refreshTaskList } from "../actions/actionCreator";
 
 //instance
 
@@ -14,6 +15,10 @@ const socket = io(`ws://${CONSTANTS.IPv4_ADDRESS}:5000`);
 
 socket.on(CONSTANTS.SOCKET_EVENT_NOTIFICATION, (data) => {
   store.dispatch({ type: "NOTIFICATION", payload: data });
+});
+
+socket.on(CONSTANTS.SOCKET_REFRESH_TASK_LIST, () => {
+  store.dispatch(refreshTaskList());
 });
 
 //userApi
